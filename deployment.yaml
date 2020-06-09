@@ -23,7 +23,7 @@ spec:
         volumeMounts:
         - mountPath: /host/run/dbus
           name: host-dbus
-  volumes:
+      volumes:
       - hostPath:
           path: /run/dbus
           type: Directory
