@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ext-mdns-deployment
+  labels:
+    app: ext-mdns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ext-mdns
+  template:
+    metadata:
+      labels:
+        app: ext-mdns
+    spec:
+      containers:
+      - name: ext-mdns
+        image: johntrimble/ext-mdns-over-host-avahi:latest
+        env:
+        - name: DBUS_SYSTEM_BUS_ADDRESS
+          value: "unix:path=/host/run/dbus/system_bus_socket"
+        volumeMounts:
+        - mountPath: /host/run/dbus
+          name: host-dbus
+  volumes:
+      - hostPath:
+          path: /run/dbus
+          type: Directory
+        name: host-dbus
