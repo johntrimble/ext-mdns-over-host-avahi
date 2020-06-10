@@ -19,7 +19,7 @@ Services can be given an mDNS hostname by adding a `mdns.johntrimble.com/hostnam
 Install ext-mdns-over-host-avahi with:
 
 ```
-microk8s kubectl apply -f https://raw.githubusercontent.com/johntrimble/ext-mdns-over-host-avahi/master/deployment.yaml
+microk8s kubectl apply -f https://raw.githubusercontent.com/johntrimble/ext-mdns-over-host-avahi/master/manifest.yaml
 ```
 
 To test it, make an nginx deployment by putting the following in a file named `example-deployment.yaml`:
