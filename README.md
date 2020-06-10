@@ -79,4 +79,4 @@ Now apply it:
 kubectl apply -f example-service.yaml
 ```
 
-You should now be able to access the nginx welcome page by using the URL [http://foo.local](http://foo.local).
+You should now be able to access the nginx welcome page by using the URL [http://foo.local/](http://foo.local/).
