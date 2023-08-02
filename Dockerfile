@@ -1,4 +1,7 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pydbus \
@@ -7,12 +10,13 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
-    && echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
-
-RUN apt-get update \
-    && apt-get install -y kubectl \
-    && rm -rf /var/lib/apt/lists/*
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \ 
+        curl -LO "https://dl.k8s.io/release/v1.27.4/bin/linux/amd64/kubectl" && \
+        install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl; \
+    elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+        curl -LO "https://dl.k8s.io/release/v1.27.4/bin/linux/arm64/kubectl" && \
+        install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl; \
+    fi
 
 COPY service-mdns.sh /opt/ext-mdns/
 COPY update_mdns.py /opt/ext-mdns/
